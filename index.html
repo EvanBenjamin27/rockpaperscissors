@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Multiplayer RPS</title>
+        <script src="https://cdn.ably.com/lib/ably.min-2.js"></script>
+        <script src="alby.js"></script>
+        <script src="divs.js"></script>
+      <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+      <div id="leaveButton">
+      <button onclick="leaveGame()">Leave Game</button>
+      </div>
+<div id="channelDiv">
+  <input type="text" id="channelInput" placeholder="Enter channel name" />
+  <button onclick="connectChannel()">Connect</button>
+  <button onclick="autoConnect()">Auto Connect</button>
+</div>
+
+<div id="gameDiv">
+  <p id="info">Random Info goes here</p>
+      <h1>Rock Paper Scissors</h1>
+      <p id="scores">scores are here</p>
+  <p id="calWin">Outcomes go here</p>
+  <div id="buttonsDiv">
+    <button id="rock">Rock</button>
+    <button id="paper">Paper</button>
+    <button id="scissors">Scissors</button>
+  </div>
+</div>
+      <div id="winner">
+      <h1 id="winnerResult">Winner Output</h1>
+      </div>
+      
+    </body>
+</html>
