@@ -19,6 +19,7 @@ function onStart()  {
   document.getElementById("gameDiv").style.display = "none";
   document.getElementById("leaveButton").style.display = "none";
   document.getElementById("winner").style.display = "none";
+  document.getElementById("pvc").style.display = "none";
 }
 window.onload = onStart;
 //window.onload = connectToChannel("general");
@@ -55,7 +56,7 @@ async function doPubSub(channelName) {
   console.log("Number of people in channel: " + channel.name + members.length);
 
   // Check if we're in "general" channel, if yes, allow unlimited members
-  if (channelName !== "general" && members.length > 2) {
+  if (channelName != "general" && members.length > 2) {
     console.log("Redirecting to 'general' due to more than 2 people in the channel.");
     connectToChannel("general");
     return;
@@ -73,7 +74,7 @@ channel.presence.subscribe(async () => {
   }
 
   // Redirect if more than 2 players in non-"general" channel
-  if (channelName !== "general" && members.length > 2) {
+  if (channelName != "general" && members.length > 2) {
     console.log("Redirecting to 'general' due to more than 2 people in the channel.");
     connectToChannel("general");
   }
@@ -82,7 +83,7 @@ channel.presence.subscribe(async () => {
   // Subscribe to receive messages
   channel.subscribe((event) => {
     const message = event.data;
-    if (message.senderId !== clientId) {
+    if (message.senderId != clientId) {
       opponentChoice = message.choice;
       console.log("Opponent Chose: " + opponentChoice);
       check();
@@ -161,9 +162,9 @@ function calculate() {
   }
 
   document.getElementById("scores").innerHTML = "My Score: " + myScore + " " + "Opponent Score: " + oppScore;
-  if (myScore === 3) {
+  if (myScore == 3) {
     win("me");
-  } else if (oppScore === 3) {
+  } else if (oppScore == 3) {
     win("opp");
   }
   myChoice = "none";
@@ -177,13 +178,17 @@ function win(winner) {
     document.getElementById("winner").style.display = "block";
     document.getElementById("calWin").innerHTML = "";
     document.getElementById("calWin").style.color = "black";
+    document.getElementById("pvc").style.display = "none";
     myScore = 0;
     oppScore = 0;
-  if (winner === "opp") {
+    myChoice = "none";
+    computer = "none";
+    opponentChoice = "none";
+  if (winner == "opp") {
     console.log("You lost :(");
     document.getElementById("winnerResult").innerHTML = "You Lost :(";
     document.getElementById("winnerResult").style.color = "red";
-  } else if (winner === "me") {
+  } else if (winner == "me") {
     console.log("You Won!");
     document.getElementById("winnerResult").innerHTML = "You Won!";
     document.getElementById("winnerResult").style.color = "green";
@@ -227,6 +232,7 @@ async function autoConnect() {
 }
 
 function startGame()  {
+    document.getElementById("calWin").innerHTML = "My Score: 3 Opponent Score: 0";
     console.log("need one more player to start");
     document.getElementById("channelDiv").style.display = "none";
     document.getElementById("gameDiv").style.display = "block";
@@ -250,7 +256,8 @@ async function checkUserCount() {
 }
 function leaveGame()  {
   twoPlayers = false;
-  
+  oppScore = 0;
+  myscore = 0;
   connectToChannel("general");
   document.getElementById("channelDiv").style.display = "block";
   document.getElementById("gameDiv").style.display = "none";
@@ -271,4 +278,61 @@ async function loopDots() {
   } else  {
     document.getElementById("info").innerHTML = "";
   }
+}
+
+function pvc(myChoice)  {
+  
+  document.getElementById("pvc").style.display = "block";
+  document.getElementById("channelDiv").style.display = "none";
+    let computerThrow = ["rock","paper","scissors"];
+    var computerNum = Math.floor(Math.random()*2);
+    let computer = computerThrow[computerNum];
+    console.log(myChoice , computer);
+  
+  if (myChoice == computer) {
+    console.log("Tie!");
+    document.getElementById("calWin1").innerHTML = "Tie!";
+    document.getElementById("calWin1").style.color = "black";
+  } else if (myChoice == "paper" && computer == "rock") {
+    console.log("Paper Covers Rock! You Win!");
+    document.getElementById("calWin1").innerHTML = "Paper Covers Rock! You Win!";
+    document.getElementById("calWin1").style.color = "green";
+    myScore++;
+  } else if (myChoice == "scissors" && computer == "rock") {
+    console.log("Rock Beats Scissors! Opponent Wins!");
+    document.getElementById("calWin1").innerHTML = "Rock Beats Scissors! Opponent Wins!";
+    document.getElementById("calWin1").style.color = "red";
+    oppScore++;
+  } else if (myChoice == "rock" && computer == "paper") {
+    console.log("Paper Beats Rock! Opponent Wins!");
+    document.getElementById("calWin1").innerHTML = "Paper Beats Rock! Opponent Wins!";
+    document.getElementById("calWin1").style.color = "red";
+    oppScore++;
+  } else if (myChoice == "scissors" && computer == "paper") {
+    console.log("Scissors Cuts Paper! You Win!");
+    document.getElementById("calWin1").innerHTML = "Scissors Cuts Paper! You Win!";
+    document.getElementById("calWin1").style.color = "green";
+    myScore++;
+  } else if (myChoice == "rock" && computer == "scissors") {
+    console.log("Rock Smashes Scissors! You Win!");
+    document.getElementById("calWin1").innerHTML = "Rock Smashes Scissors! You Win!";
+    document.getElementById("calWin1").style.color = "green";
+    myScore++;
+  } else if (myChoice == "paper" && computer == "scissors") {
+    console.log("Scissors Cuts Paper! Opponent Wins!");
+    document.getElementById("calWin1").innerHTML = "Scissors Cuts Paper! Opponent Wins!";
+    document.getElementById("calWin1").style.color = "red";
+    oppScore++;
+  }
+    document.getElementById("scores").innerHTML = "My Score: " + myScore + " " + "Opponent Score: " + oppScore;
+  if (myScore == 3) {
+    win("me");
+    myScore = 0;
+    oppScore = 0;
+  } else if (oppScore == 3) {
+    win("opp");
+    oppScore = 0;
+    myScore = 0;
+  }
+  
 }
