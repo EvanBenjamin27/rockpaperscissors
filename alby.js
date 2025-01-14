@@ -85,7 +85,7 @@ channel.presence.subscribe(async () => {
     const message = event.data;
     if (message.senderId != clientId) {
       opponentChoice = message.choice;
-      console.log("Opponent Chose: " + opponentChoice);
+      //console.log("Opponent Chose: " + opponentChoice);
       check();
     }
   });
@@ -105,7 +105,7 @@ channel.presence.subscribe(async () => {
   function sendChoice(choice) {
     document.getElementById("buttonsDiv").style.display = "none";
     channel.publish("choice", { choice, senderId: clientId });
-    console.log("Sent choice:", choice);
+    //console.log("Sent choice:", choice);
     myChoice = choice;
     check();
   }
@@ -123,7 +123,7 @@ function check() {
 }
 
 function calculate() {
-  console.log("Choices:", myChoice, opponentChoice);
+  //console.log("Choices:", myChoice, opponentChoice);
 
   if (myChoice == opponentChoice) {
     console.log("Tie!");
