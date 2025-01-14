@@ -12,17 +12,27 @@
       <div id="leaveButton">
       <button onclick="leaveGame()">Leave Game</button>
       </div>
-<div id="channelDiv">
-  <input type="text" id="channelInput" placeholder="Enter channel name" />
-  <button onclick="connectChannel()">Connect</button>
-  <button onclick="autoConnect()">Auto Connect</button>
-</div>
+<div id="homeDiv">
+  <div id="channelDiv">
+    <h2>Enter a unique lobby name and connect</h2>
+    <input type="text" id="channelInput" placeholder="Enter channel name" />
+    <button onclick="connectChannel()">Connect</button>
+    <br>
+    <br>
+    <h3>play against a random person</h3>
+    <button onclick="autoConnect()">Auto Connect</button>
+    <br>
+    <br>
+    <h4>Play against a computer</h4>
+    <button onclick="pvc()">Player Vs. Computer</button>
 
+  </div>
+      </div>
 <div id="gameDiv">
   <p id="info">Random Info goes here</p>
       <h1>Rock Paper Scissors</h1>
       <p id="scores">scores are here</p>
-  <p id="calWin">Outcomes go here</p>
+  <p id="calWin">Click on a button to play</p>
   <div id="buttonsDiv">
     <button id="rock">Rock</button>
     <button id="paper">Paper</button>
@@ -33,5 +43,11 @@
       <h1 id="winnerResult">Winner Output</h1>
       </div>
       
+      <div id="pvc">
+        <p id="calWin1">Click on a button to play</p>
+        <button onclick="pvc('rock')">Rock</button>
+        <button onclick="pvc('paper')">Paper</button>
+        <button onclick="pvc('scissors')">Scissors</button>
+      </div>
     </body>
 </html>
