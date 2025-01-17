@@ -5,33 +5,35 @@
         <title>Multiplayer RPS</title>
         <script src="https://cdn.ably.com/lib/ably.min-2.js"></script>
         <script src="alby.js"></script>
-        <script src="divs.js"></script>
       <link rel="stylesheet" href="styles.css">
     </head>
     <body>
       <div id="leaveButton">
       <button onclick="leaveGame()">Leave Game</button>
       </div>
+      <h1>Rock Paper Scissors</h1>
 <div id="homeDiv">
   <div id="channelDiv">
+    <p>Check out the <a href="https://github.com/EvanBenjamin27/rockpaperscissors" target="_blank" rel="noopener noreferrer">source code</a>.</p>
     <h2>Enter a unique lobby name and connect</h2>
     <input type="text" id="channelInput" placeholder="Enter channel name" />
     <button onclick="connectChannel()">Connect</button>
-    <br>
-    <br>
+      <div id="autoConnectDiv">
     <h3>play against a random person</h3>
     <button onclick="autoConnect()">Auto Connect</button>
-    <br>
-    <br>
+      </div>
+        <div id="pvcDiv">
     <h4>Play against a computer</h4>
-    <button onclick="pvc()">Player Vs. Computer</button>
-
+    <button onclick="playPvc()">Player Vs. Computer</button>
+        </div>
   </div>
       </div>
 <div id="gameDiv">
-  <p id="info">Random Info goes here</p>
-      <h1>Rock Paper Scissors</h1>
-      <p id="scores">scores are here</p>
+  <p id="channelInfo">Channel Name</p>
+  <p id="info"></p>
+      <p id="scores"></p>
+    <img id="myImg" src="imgs/Throws/rock.png">
+    <img id="oppImg" src="imgs/Throws/rock.png">
   <p id="calWin">Click on a button to play</p>
   <div id="buttonsDiv">
     <button id="rock">Rock</button>
@@ -45,6 +47,11 @@
       
       <div id="pvc">
         <p id="calWin1">Click on a button to play</p>
+        <p id="scores1"></p>
+        <img id="myImg1" src="imgs/Throws/rock.png">
+        <img id="oppImg1" src="imgs/Throws/rock.png">
+        <br>
+        <br>
         <button onclick="pvc('rock')">Rock</button>
         <button onclick="pvc('paper')">Paper</button>
         <button onclick="pvc('scissors')">Scissors</button>
