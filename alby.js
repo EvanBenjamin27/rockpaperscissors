@@ -8,6 +8,7 @@ let oppScore = 0;
 let userCount = "0";
 let twoPlayers = false;
 let loopingDots = false;
+let channelInfoName = "";
 // Ably realtime vars
 const realtime = new Ably.Realtime({ key, clientId: "user-" + Math.random().toString(36).substr(2, 9) });
 let channel;
@@ -20,6 +21,8 @@ function onStart()  {
   document.getElementById("leaveButton").style.display = "none";
   document.getElementById("winner").style.display = "none";
   document.getElementById("pvc").style.display = "none";
+  myScore = 0;
+  oppScore = 0;
 }
 window.onload = onStart;
 //window.onload = connectToChannel("general");
@@ -34,7 +37,7 @@ async function connectToChannel(channelName) {
 
   channel = realtime.channels.get(channelName);
   console.log("Connected to channel: " + channelName);
-
+  channelInfoName = channelName;
   // Call checkUserCount to get the current number of users
   await checkUserCount();
 
@@ -160,7 +163,22 @@ function calculate() {
     document.getElementById("calWin").style.color = "red";
     oppScore++;
   }
-
+    if (myChoice == "rock") {
+    document.getElementById("myImg").src = "imgs/Throws/rock.png";
+  } else if (myChoice == "paper") {
+    document.getElementById("myImg").src = "imgs/Throws/paper.png";
+  } else {
+    document.getElementById("myImg").src = "imgs/Throws/scissors.png";
+  }
+  
+  if (opponentChoice == "rock") {
+    document.getElementById("oppImg").src = "imgs/Throws/rock.png";
+  } else if (opponentChoice == "paper") {
+    document.getElementById("oppImg").src = "imgs/Throws/paper.png";
+  } else {
+    document.getElementById("oppImg").src = "imgs/Throws/scissors.png";
+  }
+  
   document.getElementById("scores").innerHTML = "My Score: " + myScore + " " + "Opponent Score: " + oppScore;
   if (myScore == 3) {
     win("me");
@@ -232,10 +250,10 @@ async function autoConnect() {
 }
 
 function startGame()  {
-    document.getElementById("calWin").innerHTML = "My Score: 3 Opponent Score: 0";
-    console.log("need one more player to start");
+    document.getElementById("calWin").innerHTML = "My Score: 0 Opponent Score: 0";
     document.getElementById("channelDiv").style.display = "none";
     document.getElementById("gameDiv").style.display = "block";
+    document.getElementById("channelInfo").innerHTML = "Current Lobby Name: " + channelInfoName ;
 }
 
 async function checkUserCount() {
@@ -271,24 +289,44 @@ async function loopDots() {
   if (loopingDots)  {
   document.getElementById("info").innerHTML = "Waiting for another player"+waitingDots[waitingItt];
   waitingItt++;
+  document.getElementById("buttonsDiv").style.display = "none";
   if (waitingItt == 3)  {
     waitingItt = 0;
     }
     setTimeout(() => loopDots(), 500);
   } else  {
+    document.getElementById("buttonsDiv").style.display = "block";
     document.getElementById("info").innerHTML = "";
   }
 }
 
-function pvc(myChoice)  {
-  
+function playPvc()  {
   document.getElementById("pvc").style.display = "block";
   document.getElementById("channelDiv").style.display = "none";
-    let computerThrow = ["rock","paper","scissors"];
-    var computerNum = Math.floor(Math.random()*2);
-    let computer = computerThrow[computerNum];
-    console.log(myChoice , computer);
+  myChoice = "rock";
+  document.getElementById("oppImg1").src = "imgs/Throws/rock.png";
+}
+
+function pvc(myChoice)  {
+  let computerThrow = ["rock","paper","scissors"];
+  var computerNum = Math.floor(Math.random()*2);
+  let computer = computerThrow[computerNum];
   
+    console.log(myChoice , computer);
+  if (myChoice == "rock") {
+    document.getElementById("myImg1").src = "imgs/Throws/rock.png";
+  } else if (myChoice == "paper") {
+    document.getElementById("myImg1").src = "imgs/Throws/paper.png";
+  } else {
+    document.getElementById("myImg1").src = "imgs/Throws/scissors.png";
+  }
+  if (computer == "rock") {
+    document.getElementById("oppImg1").src = "imgs/Throws/rock.png";
+  } else if (computer == "paper") {
+    document.getElementById("oppImg1").src = "imgs/Throws/paper.png";
+  } else {
+    document.getElementById("oppImg1").src = "imgs/Throws/scissors.png";
+  }
   if (myChoice == computer) {
     console.log("Tie!");
     document.getElementById("calWin1").innerHTML = "Tie!";
@@ -324,7 +362,7 @@ function pvc(myChoice)  {
     document.getElementById("calWin1").style.color = "red";
     oppScore++;
   }
-    document.getElementById("scores").innerHTML = "My Score: " + myScore + " " + "Opponent Score: " + oppScore;
+    document.getElementById("scores1").innerHTML = "My Score: " + myScore + " " + "Computer Score: " + oppScore;
   if (myScore == 3) {
     win("me");
     myScore = 0;
